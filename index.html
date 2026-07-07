@@ -226,10 +226,17 @@ pre.xml code{background:none;color:#d8cfbd;font-family:'D2Coding','Consolas',mon
 .iholder[hidden]{display:none}
 .iholder iframe{width:100%;height:min(78vh,860px);min-height:480px;border:0;
    border-top:1px solid var(--line);background:#f6f1e7;display:block}
-/* 전체화면 시 iframe이 화면을 꽉 채우도록 */
-.iholder iframe:fullscreen{height:100vh;min-height:0}
-.istage:fullscreen{background:#f6f1e7}
-.istage:fullscreen .iholder iframe{height:100vh}
+/* 전체화면 — 서브탭째로 채워서, 나갔다 다시 안 눌러도 화면 안에서 차트 전환 */
+.izone:fullscreen,.izone:-webkit-full-screen{background:var(--paper);display:flex;flex-direction:column;
+   padding:14px 18px 16px;box-sizing:border-box}
+.izone:fullscreen .isubtabs{margin:2px 0 10px}
+.izone:fullscreen .ibox{flex:1;display:flex;flex-direction:column;margin:0;overflow:hidden}
+.izone:fullscreen .istage{flex:1;min-height:0}
+.izone:fullscreen .iholder{height:100%}
+.izone:fullscreen .iholder iframe{height:100%;min-height:0}
+.izone:-webkit-full-screen .ibox{flex:1;display:flex;flex-direction:column;margin:0}
+.izone:-webkit-full-screen .istage{flex:1;min-height:0}
+.izone:-webkit-full-screen .iholder,.izone:-webkit-full-screen .iholder iframe{height:100%;min-height:0}
 
 /* capta — uncertainty unit chart */
 .captacard .prose-p b{color:#241f17}
@@ -481,7 +488,7 @@ a:focus-visible,button:focus-visible,.tab:focus-visible,.tok:focus-visible,
     <h2 class="padl">직접 만져보는 데이터</h2>
     <p class="bandlede padl">보고 싶은 화면을 위에서 고르면 크게 열린다. 마우스로 필터·호버할 수 있고,
       <b>⛶ 전체화면</b> 버튼으로 화면 가득 볼 수 있다. (고른 화면만 불러오므로 전환이 가볍다.)</p>
-    <div class="isubtabs padl" role="tablist"><button class="isub active" type="button" data-chart="scatter">산점도</button><button class="isub" type="button" data-chart="arc">서사 아크</button><button class="isub" type="button" data-chart="network">관계망</button></div><section class="ibox"><div class="ihead"><h3 id="i-title"></h3><p id="i-cap"></p><button class="ifull" id="i-full" type="button" title="전체화면으로 보기">⛶ 전체화면</button></div><div class="istage"><div class="iholder" data-h="scatter"></div><div class="iholder" data-h="arc" hidden></div><div class="iholder" data-h="network" hidden></div></div></section><template id="itpl-scatter"><iframe srcdoc="<!doctype html><html lang=&quot;ko&quot;><head><meta charset=&quot;utf-8&quot;><meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;><title>駱駝祥子 · 돈 서사 흐름</title><link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;><link href=&quot;https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css&quot; rel=&quot;stylesheet&quot;><link href=&quot;https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600&amp;display=swap&quot; rel=&quot;stylesheet&quot;><script src=&quot;https://cdn.plot.ly/plotly-2.35.2.min.js&quot;></script><style>
+    <div class="izone"><div class="isubtabs padl" role="tablist"><button class="isub active" type="button" data-chart="scatter">산점도</button><button class="isub" type="button" data-chart="arc">서사 아크</button><button class="isub" type="button" data-chart="network">관계망</button></div><section class="ibox"><div class="ihead"><h3 id="i-title"></h3><p id="i-cap"></p><button class="ifull" id="i-full" type="button" title="전체화면으로 보기">⛶ 전체화면</button></div><div class="istage"><div class="iholder" data-h="scatter"></div><div class="iholder" data-h="arc" hidden></div><div class="iholder" data-h="network" hidden></div></div></section></div><template id="itpl-scatter"><iframe srcdoc="<!doctype html><html lang=&quot;ko&quot;><head><meta charset=&quot;utf-8&quot;><meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;><title>駱駝祥子 · 돈 서사 흐름</title><link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;><link href=&quot;https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css&quot; rel=&quot;stylesheet&quot;><link href=&quot;https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600&amp;display=swap&quot; rel=&quot;stylesheet&quot;><script src=&quot;https://cdn.plot.ly/plotly-2.35.2.min.js&quot;></script><style>
   :root{--ink:#3a362f;--mut:#8c857a;--line:#e7e0d4;--gold:#b89150;--teal:#4c8c7a;--terra:#d08c5a}
   *{box-sizing:border-box}
   body{margin:0;background:linear-gradient(170deg,#f6f1e7 0%,#efe8da 100%);
@@ -1080,11 +1087,15 @@ function ensureInteractive(){ if(!__iinit){__iinit=true; activateChart('scatter'
   document.querySelectorAll('.isub').forEach(b=>b.addEventListener('click',()=>activateChart(b.dataset.chart)));
   const full=document.getElementById('i-full');
   if(full)full.addEventListener('click',()=>{
-    const stage=document.querySelector('.istage'); if(!stage)return;
+    const zone=document.querySelector('.izone'); if(!zone)return;  // 서브탭까지 통째로 → 전체화면 안에서 차트 전환 가능
     if(document.fullscreenElement||document.webkitFullscreenElement){
       (document.exitFullscreen||document.webkitExitFullscreen).call(document); return;}
-    (stage.requestFullscreen||stage.webkitRequestFullscreen||function(){}).call(stage);
+    (zone.requestFullscreen||zone.webkitRequestFullscreen||function(){}).call(zone);
   });
+  const syncFull=()=>{const on=!!(document.fullscreenElement||document.webkitFullscreenElement);
+    if(full)full.textContent=on?'⛶ 전체화면 닫기':'⛶ 전체화면';};
+  document.addEventListener('fullscreenchange',syncFull);
+  document.addEventListener('webkitfullscreenchange',syncFull);
 })();
 // init
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.target)));
