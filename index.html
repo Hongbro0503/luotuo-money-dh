@@ -233,10 +233,10 @@ pre.xml code{background:none;color:#d8cfbd;font-family:'D2Coding','Consolas',mon
 .izone:fullscreen .ibox{flex:1;display:flex;flex-direction:column;margin:0;overflow:hidden}
 .izone:fullscreen .istage{flex:1;min-height:0}
 .izone:fullscreen .iholder{height:100%}
-.izone:fullscreen .iholder iframe{height:100%;min-height:0}
+.izone:fullscreen .iholder iframe{height:100%!important;min-height:0}
 .izone:-webkit-full-screen .ibox{flex:1;display:flex;flex-direction:column;margin:0}
 .izone:-webkit-full-screen .istage{flex:1;min-height:0}
-.izone:-webkit-full-screen .iholder,.izone:-webkit-full-screen .iholder iframe{height:100%;min-height:0}
+.izone:-webkit-full-screen .iholder,.izone:-webkit-full-screen .iholder iframe{height:100%!important;min-height:0}
 
 /* capta — uncertainty unit chart */
 .captacard .prose-p b{color:#241f17}
@@ -570,7 +570,7 @@ a:focus-visible,button:focus-visible,.tab:focus-visible,.tok:focus-visible,
     <option value=&quot;간접&quot;>간접만</option>
   </select>
 </div>
-<div id=&quot;chart&quot; class=&quot;chart&quot; style=&quot;height:72vh&quot;></div>
+<div id=&quot;chart&quot; class=&quot;chart&quot; style=&quot;height:640px&quot;></div>
 <p class=&quot;note&quot;>범례의 성격을 클릭하면 켜고 끌 수 있어. 드래그하면 확대, 더블클릭하면 원위치.</p>
 </div></div>
 <script>
@@ -723,12 +723,12 @@ function render(){
 
 <div class=&quot;secttitle&quot;>① 서사 아크 — 샹즈의 경제 운명 곡선 <span style=&quot;font-weight:400;font-size:13px;color:#8c857a&quot;>(Vonnegut–Jockers–Reagan 계보)</span></div>
 <p class=&quot;subnote&quot;>기본 = <b>실제 금액 누적(塊)</b>. 측정된 실거래 28건만 반영(나머지는 액수 미상/담론). 점 크기 = 거래 액수, 색 = 방향. 위 버튼으로 <b>개수 누적(±1)</b>과 비교. 아래 회색막대 = 그 장의 <b>담론</b>(말로만 다뤄진 돈).</p>
-<div id=&quot;arc&quot; class=&quot;chart&quot; style=&quot;height:46vh;min-height:440px&quot;></div>
+<div id=&quot;arc&quot; class=&quot;chart&quot; style=&quot;height:460px&quot;></div>
 <p class=&quot;note&quot;>금액 끝값 +138.8塊 · 개수 끝값 +43. ★1장 차값 100塊 모음→96塊 차 구입→2장 96塊 강탈로 −구간 추락. 마우스=원문, 드래그=확대.</p>
 
 <div class=&quot;secttitle&quot;>② 테마 강물(ThemeRiver) — 성격 5종의 무게중심 이동</div>
 <p class=&quot;subnote&quot;>강물 한 줄기 = 성격 1종, 두께 = 그 장의 빈도. <b>실거래(흐름)에서 계산·값·흥정(담론)으로 무게중심이 옮겨가는지</b>를 흐름으로.</p>
-<div id=&quot;river&quot; class=&quot;chart&quot; style=&quot;height:46vh;min-height:360px&quot;></div>
+<div id=&quot;river&quot; class=&quot;chart&quot; style=&quot;height:400px&quot;></div>
 <p class=&quot;note&quot;>강물에 마우스=성격·장·빈도. ThemeRiver(Havre 2000) 방식.</p>
 </div></div>
 
@@ -1067,11 +1067,30 @@ function switchTab(target){
 }
 // 인터랙티브 — 서브탭 전환 + 지연 로딩(고른 것만) + 전체화면
 let __iinit=false;
+function fitFrame(iframe){  // iframe을 내부 차트 실제 높이에 맞춰 안쪽 스크롤바 제거(동일출처 srcdoc라 접근 가능)
+  try{
+    const d=iframe.contentDocument||iframe.contentWindow.document;
+    if(!d||!d.body)return;
+    const h=Math.max(d.body.scrollHeight,d.documentElement.scrollHeight);
+    if(h>80){iframe.style.height=(h+2)+'px';
+      d.documentElement.style.overflow='hidden'; d.body.style.overflow='hidden';}
+    if(!iframe.__ro&&window.ResizeObserver){  // 안내패널 토글 등 내용 변화 추적
+      iframe.__ro=new ResizeObserver(()=>{
+        if(document.fullscreenElement)return;  // 전체화면 땐 CSS가 높이 관리
+        const hh=Math.max(d.body.scrollHeight,d.documentElement.scrollHeight);
+        if(hh>80)iframe.style.height=(hh+2)+'px';});
+      iframe.__ro.observe(d.body);}
+  }catch(e){}
+}
 function buildHolder(key){
   const holder=document.querySelector('.iholder[data-h="'+key+'"]');
   if(!holder||holder.dataset.loaded)return holder;
   const tpl=document.getElementById('itpl-'+key);
-  if(tpl){holder.appendChild(tpl.content.cloneNode(true));holder.dataset.loaded='1';}
+  if(tpl){holder.appendChild(tpl.content.cloneNode(true));holder.dataset.loaded='1';
+    const ifr=holder.querySelector('iframe');
+    if(ifr){const fit=()=>fitFrame(ifr);
+      ifr.addEventListener('load',()=>{fit();setTimeout(fit,250);setTimeout(fit,900);});
+      setTimeout(fit,400);}}  // srcdoc가 이미 로드됐을 경우 대비
   return holder;
 }
 function activateChart(key){
@@ -1092,10 +1111,14 @@ function ensureInteractive(){ if(!__iinit){__iinit=true; activateChart('scatter'
       (document.exitFullscreen||document.webkitExitFullscreen).call(document); return;}
     (zone.requestFullscreen||zone.webkitRequestFullscreen||function(){}).call(zone);
   });
+  const visFrame=()=>document.querySelector('.iholder:not([hidden]) iframe');
   const syncFull=()=>{const on=!!(document.fullscreenElement||document.webkitFullscreenElement);
-    if(full)full.textContent=on?'⛶ 전체화면 닫기':'⛶ 전체화면';};
+    if(full)full.textContent=on?'⛶ 전체화면 닫기':'⛶ 전체화면';
+    if(!on){const v=visFrame(); if(v)setTimeout(()=>fitFrame(v),80);}};  // 나갈 때 인라인 높이 복원
   document.addEventListener('fullscreenchange',syncFull);
   document.addEventListener('webkitfullscreenchange',syncFull);
+  let rz; window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{
+    const v=visFrame(); if(v&&!document.fullscreenElement)fitFrame(v);},200);});
 })();
 // init
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.target)));
