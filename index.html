@@ -701,6 +701,14 @@ function render(){
   .guide ul{margin:2px 0;padding-left:19px}
   .guide b{color:#2c2a26}
 </style></head><body><div id=&quot;wrap&quot;><div class=&quot;card&quot;><p class=&quot;eyebrow&quot;>駱駝祥子 · MONEY × NARRATIVE (DH)</p><h1>돈으로 본 서사 — 두 가지 DH 렌즈<span class=&quot;sub&quot;>① 샹즈의 경제 운명 곡선 · ② 성격 5종의 테마 강물 · 1~10장</span></h1><div class=&quot;rule&quot;></div>
+<style>
+.arcctl{display:flex;align-items:center;gap:12px;margin:4px 0 10px;flex-wrap:wrap}
+.playbtn{font:600 13px Pretendard,'Malgun Gothic',sans-serif;color:#fff;background:#2c7fb8;
+  border:0;border-radius:999px;padding:8px 17px;cursor:pointer;transition:.15s;box-shadow:0 6px 16px -8px rgba(44,127,184,.8)}
+.playbtn:hover{background:#236699}
+.playbtn:disabled{opacity:.55;cursor:default;box-shadow:none}
+.arcctlhint{font-size:12px;color:#8c857a}
+</style>
 <details class=&quot;guide&quot; open>
   <summary>📊 이 두 그림 한눈에 이해하기 <span class=&quot;chev&quot;>▲ 접기 / ▼ 펼치기</span></summary>
   <div class=&quot;gbody&quot;>
@@ -723,6 +731,7 @@ function render(){
 
 <div class=&quot;secttitle&quot;>① 서사 아크 — 샹즈의 경제 운명 곡선 <span style=&quot;font-weight:400;font-size:13px;color:#8c857a&quot;>(Vonnegut–Jockers–Reagan 계보)</span></div>
 <p class=&quot;subnote&quot;>기본 = <b>실제 금액 누적(塊)</b>. 측정된 실거래 28건만 반영(나머지는 액수 미상/담론). 점 크기 = 거래 액수, 색 = 방향. 위 버튼으로 <b>개수 누적(±1)</b>과 비교. 아래 회색막대 = 그 장의 <b>담론</b>(말로만 다뤄진 돈).</p>
+<div class=&quot;arcctl&quot;><button id=&quot;arcplay&quot; class=&quot;playbtn&quot; type=&quot;button&quot;>▶ 서사 따라 그리기</button><span class=&quot;arcctlhint&quot;>읽는 순서대로 곡선이 자라나며 강탈의 낙차가 드러납니다</span></div>
 <div id=&quot;arc&quot; class=&quot;chart&quot; style=&quot;height:460px&quot;></div>
 <p class=&quot;note&quot;>금액 끝값 +138.8塊 · 개수 끝값 +43. ★1장 차값 100塊 모음→96塊 차 구입→2장 96塊 강탈로 −구간 추락. 마우스=원문, 드래그=확대.</p>
 
@@ -792,6 +801,37 @@ const P = {&quot;arc&quot;: [{&quot;gx&quot;: 0, &quot;ch&quot;: 1, &quot;cum_cn
     yaxis2:{title:'담론',domain:[0,0.2],gridcolor:'#f2ecdf'},
     plot_bgcolor:'rgba(0,0,0,0)',paper_bgcolor:'rgba(0,0,0,0)'
   },{responsive:true,displaylogo:false});
+
+  // ▶ 재생 — 읽는 순서대로 금액 곡선/실거래 점을 그려나감(requestAnimationFrame 리스타일)
+  (function(){
+    const btn=document.getElementById('arcplay'); if(!btn)return;
+    const fullX=A.map(d=>d.gx), fullY=A.map(d=>d.cum_amt);
+    const msize=d=>Math.min(24,6+Math.sqrt(Math.abs(d.val))*2.3);
+    const xmin=Math.min.apply(null,fullX), xmax=Math.max.apply(null,fullX);
+    const ymin=Math.min.apply(null,fullY), ymax=Math.max.apply(null,fullY);
+    let playing=false;
+    function draw(k){
+      const sub=A.slice(0,k), subM=sub.filter(d=>d.val!==null);
+      Plotly.restyle('arc',{x:[sub.map(d=>d.gx)],y:[sub.map(d=>d.cum_amt)]},[0]);
+      Plotly.restyle('arc',{x:[subM.map(d=>d.gx)],y:[subM.map(d=>d.cum_amt)],
+        'marker.size':[subM.map(msize)],'marker.color':[subM.map(d=>d.color)]},[1]);
+    }
+    btn.addEventListener('click',function(){
+      if(playing)return; playing=true; btn.disabled=true; btn.textContent='▶ 그리는 중…';
+      // 금액 모드 고정 + 축 고정(자라나며 스케일 안 튀게)
+      Plotly.update('arc',{visible:[true,true,false,false,true]},
+        {'yaxis.title':'누적 금액(塊)','xaxis.range':[xmin-1,xmax+1],'yaxis.range':[ymin-8,ymax+14],
+         'xaxis.autorange':false,'yaxis.autorange':false});
+      const N=fullX.length, dur=2600; let t0=null;
+      requestAnimationFrame(function step(now){
+        if(t0===null)t0=now;
+        const p=Math.min(1,(now-t0)/dur), k=Math.max(1,Math.floor(p*N));
+        draw(k);
+        if(p<1)requestAnimationFrame(step);
+        else{draw(N); playing=false; btn.disabled=false; btn.textContent='▶ 다시 그리기';}
+      });
+    });
+  })();
 })();
 
 /* ---------- (2) ThemeRiver ---------- */
