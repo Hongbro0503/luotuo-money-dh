@@ -43,6 +43,26 @@ body.intro{overflow:hidden}
 .sp-guide span{background:rgba(63,138,120,.09);border:1px solid rgba(63,138,120,.22);
    border-radius:999px;padding:5px 13px;color:#544d40;font-weight:600}
 .sp-guide i{font-style:normal;color:#c3b48f;font-weight:700}
+/* 인트로 텍스트→데이터 모핑 */
+.morph{max-width:600px;margin:16px auto 4px}
+.morph-lead{font-size:11.5px;letter-spacing:.16em;color:#a9803a;font-weight:700;margin:0 0 7px;text-transform:uppercase}
+.morph-text{font-size:clamp(14px,1.9vw,16.5px);line-height:1.95;color:#5a5043;word-break:keep-all;
+   background:#fffdf8;border:1px solid var(--line);border-radius:12px;padding:14px 17px;text-align:left}
+.mtok{position:relative;border-radius:4px;padding:0 1px;transition:color .3s,box-shadow .35s;
+   box-shadow:inset 0 -0.55em 0 rgba(184,144,80,.14)}
+.mtok.lit{box-shadow:inset 0 -0.62em 0 rgba(184,144,80,.42);color:#241f17}
+.mtok.spent{box-shadow:inset 0 -0.62em 0 rgba(184,144,80,.08);color:#a89f8c}
+.morph-stage{position:relative;height:124px;margin:12px 0 4px;overflow:visible}
+.morph-stage::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px dashed #ddd3bf}
+.morph-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.morph-path{fill:none;stroke:var(--teal);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+.flydot{position:absolute;width:13px;height:13px;border-radius:50%;margin:-6.5px 0 0 -6.5px;z-index:3;
+   box-shadow:0 3px 8px rgba(60,40,10,.18);transition:transform 1.05s cubic-bezier(.22,.9,.3,1)}
+.morph-cap{font-size:12.5px;color:#8a8172;margin:6px 0 0}
+.morph-cap b{color:#5f5647}
+.morph-replay{margin-top:9px;font:600 12px Pretendard,sans-serif;color:var(--teal);background:none;
+   border:1px solid rgba(63,138,120,.35);border-radius:999px;padding:5px 13px;cursor:pointer;transition:.15s}
+.morph-replay:hover{background:rgba(63,138,120,.09)}
 
 /* HERO — cover shelf marquee */
 .shelf{position:relative;z-index:1;margin:54px auto 0;max-width:1280px;
@@ -363,6 +383,13 @@ a:focus-visible,button:focus-visible,.tab:focus-visible,.tok:focus-visible,
 <div id="splash">
   <div class="sp-inner">
     <p class="eyebrow">老舍 · 駱駝祥子 · 디지털 인문학 / 돈(錢) 마크업</p>
+    <div id="morph" class="morph" aria-hidden="true">
+      <p class="morph-lead">한 문장에서 —</p>
+      <div id="morphtext" class="morph-text">자신의 인력거가 생긴 이후로 그의 생활은 날이 갈수록 활기를 띠었다.<span class="mtok" data-nat="흐름" data-dir="획득">전세도 좋고</span>개별 손님을 모셔도 좋았다. 매일 &#x27;<span class="mtok" data-nat="흐름" data-dir="지출">사납금</span>&#x27; 때문에 조급할 필요도 없었으니,<span class="mtok" data-nat="흐름" data-dir="획득">얼마를 끌든 모두 자기 몫</span>이었던 것이다.</div>
+      <div id="morphstage" class="morph-stage"><svg class="morph-svg"><path class="morph-path" d=""></path></svg></div>
+      <p class="morph-cap"><b>읽는 문장</b>의 돈이 <b>세는 점</b>으로 — 이 프로젝트가 하는 일</p>
+      <button id="morphreplay" class="morph-replay" type="button">↻ 다시 보기</button>
+    </div>
     <h1>돈을 <span class="hi">읽는 곡선</span>에서<br><span class="hi">세는 곡선</span>으로.</h1>
     <p class="lede">인력거꾼 샹즈의 일생, <b>三起三落</b>의 오르내림을 인상이 아니라 <b>측정</b>으로 다시 읽는다.<br>
       돈이 오가는 291개의 순간을 문장 하위 속성으로 태깅한 기록.</p>
@@ -1171,6 +1198,57 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>swit
   document.querySelectorAll('.captasvg').forEach(svg=>svg.addEventListener('click',e=>{
     const c=e.target.closest('.cdot'); if(c)gotoToken(+c.dataset.n,+c.dataset.tk);}));
   renderChapter(1);
+})();
+// 인트로 텍스트→데이터 모핑 — 문장의 돈 표현이 점으로 튀어나와 곡선으로
+(function(){
+  const NAT={'흐름':'#3f8a78','값':'#b8902f','계산':'#c2925a','흥정':'#cf7a4f','목표':'#8f6fa3'};
+  const wrap=document.getElementById('morph'); if(!wrap)return;
+  const stage=document.getElementById('morphstage');
+  const path=wrap.querySelector('.morph-path');
+  let timers=[];
+  const clr=()=>{timers.forEach(clearTimeout);timers=[];};
+  function runMorph(){
+    clr();
+    const toks=[].slice.call(document.querySelectorAll('#morphtext .mtok')).slice(0,8);
+    if(!toks.length)return;
+    stage.querySelectorAll('.flydot').forEach(d=>d.remove());
+    if(path){path.setAttribute('d','');path.style.transition='none';path.style.strokeDashoffset='0';}
+    toks.forEach(t=>t.classList.remove('lit','spent'));
+    const sr=stage.getBoundingClientRect(); if(sr.width<10)return;
+    const n=toks.length, pad=Math.min(44,sr.width*0.10);
+    const pts=toks.map((t,i)=>{
+      const dir=t.dataset.dir, up=(dir==='획득'||dir==='저축'), down=(dir==='지출'||dir==='상실');
+      return {tx:pad+(sr.width-2*pad)*(n>1?i/(n-1):0.5),
+              ty:sr.height/2+(up?-1:down?1:0)*sr.height*0.30, col:NAT[t.dataset.nat]||'#b8902f'};
+    });
+    toks.forEach((t,i)=>{
+      timers.push(setTimeout(()=>{
+        t.classList.add('lit');
+        timers.push(setTimeout(()=>{
+          const tr=t.getBoundingClientRect();
+          const x0=tr.left+tr.width/2-sr.left, y0=tr.top+tr.height/2-sr.top;
+          const dot=document.createElement('span'); dot.className='flydot';
+          dot.style.background=pts[i].col; dot.style.left=x0+'px'; dot.style.top=y0+'px';
+          stage.appendChild(dot);
+          requestAnimationFrame(()=>{dot.style.transform='translate('+(pts[i].tx-x0)+'px,'+(pts[i].ty-y0)+'px)';});
+          t.classList.add('spent');
+        },300));
+      },350+i*480));
+    });
+    timers.push(setTimeout(()=>{
+      if(!path)return;
+      let d='M '+pts[0].tx.toFixed(1)+' '+pts[0].ty.toFixed(1);
+      for(let i=1;i<pts.length;i++)d+=' L '+pts[i].tx.toFixed(1)+' '+pts[i].ty.toFixed(1);
+      path.setAttribute('d',d);
+      const len=path.getTotalLength();
+      path.style.transition='none';path.style.strokeDasharray=len;path.style.strokeDashoffset=len;
+      path.getBoundingClientRect();
+      path.style.transition='stroke-dashoffset 1.1s ease';path.style.strokeDashoffset='0';
+    },350+n*480+700));
+  }
+  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const rp=document.getElementById('morphreplay'); if(rp)rp.addEventListener('click',runMorph);
+  if(!reduce&&document.body.classList.contains('intro'))timers.push(setTimeout(runMorph,750));
 })();
 // 표지 인트로 게이트 → '들어가기'로 본문 진입
 (function(){
