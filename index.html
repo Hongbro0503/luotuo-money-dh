@@ -546,10 +546,16 @@ a:focus-visible,button:focus-visible,.tab:focus-visible,.tok:focus-visible,
   .cap{font-size:12px;color:var(--mut);line-height:1.7;margin:14px auto 0;text-align:center;max-width:920px}
   .cap b{color:#6b6356;font-weight:600}
   .cap code{background:#f1eadd;border-radius:5px;padding:1px 5px;font-size:11px;color:#7a7060}
-  /* 컨트롤(드롭다운) */
-  #controls{font-size:13px;color:#544c3f;margin:12px 0 2px}
-  #controls select{font-family:inherit;font-size:13px;padding:4px 9px;border:1px solid var(--line);
-                   border-radius:8px;background:#fff;color:var(--ink);margin:0 2px}
+  /* 컨트롤(드롭다운) — 눈에 띄는 필터 바 */
+  #controls{display:flex;flex-wrap:wrap;align-items:center;gap:7px 15px;font-size:13px;color:#544c3f;
+            margin:14px 0 12px;padding:11px 15px;background:#fbf4e6;
+            border:1px solid #e7dabf;border-radius:12px;box-shadow:0 6px 16px -12px rgba(120,90,30,.4)}
+  #controls::before{content:&quot;F50D  골라 보기&quot;;font-weight:800;color:var(--gold);
+                    letter-spacing:.02em;margin-right:2px}
+  #controls select{font-family:inherit;font-size:13px;padding:5px 10px;border:1px solid #d9c9a6;
+                   border-radius:8px;background:#fff;color:var(--ink);margin:0 2px;cursor:pointer;font-weight:600}
+  #controls select:hover{border-color:var(--gold)}
+  #controls .cgroup{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:#4a4234}
   /* 범례 칩 */
   .legend{display:flex;flex-wrap:wrap;justify-content:center;gap:7px 9px;margin:8px 0 2px}
   .lgttl{font-size:12px;color:var(--mut);align-self:center;margin-right:2px}
@@ -591,16 +597,13 @@ a:focus-visible,button:focus-visible,.tab:focus-visible,.tok:focus-visible,
   </div>
 </details>
 <div id=&quot;controls&quot;>
-  장 보기:
-  <select id=&quot;chap&quot;><option value=&quot;0&quot;>전체 (1~10장)</option></select>
-  &amp;nbsp;&amp;nbsp; 관여:
-  <select id=&quot;inv&quot;>
+  <span class=&quot;cgroup&quot;>장 보기 <select id=&quot;chap&quot;><option value=&quot;0&quot;>전체 (1~10장)</option></select></span>
+  <span class=&quot;cgroup&quot;>관여 <select id=&quot;inv&quot;>
     <option value=&quot;all&quot;>전체</option>
     <option value=&quot;직접&quot;>직접만</option>
     <option value=&quot;간접&quot;>간접만</option>
-  </select>
-  &amp;nbsp;&amp;nbsp; 주체:
-  <select id=&quot;subj&quot;><option value=&quot;all&quot;>전체 인물</option></select>
+  </select></span>
+  <span class=&quot;cgroup&quot;>주체(인물) <select id=&quot;subj&quot;><option value=&quot;all&quot;>전체 인물</option></select></span>
 </div>
 <div id=&quot;chart&quot; class=&quot;chart&quot; style=&quot;height:640px&quot;></div>
 <p class=&quot;note&quot;>범례의 성격을 클릭하면 켜고 끌 수 있어. 드래그하면 확대, 더블클릭하면 원위치.</p>
