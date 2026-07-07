@@ -34,6 +34,10 @@ body.intro{overflow:hidden}
    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .lede{font-size:clamp(15px,2.1vw,18px);color:#5a5043;max-width:680px;margin:24px auto 0;line-height:1.78}
 .lede b{color:#2c2619}
+.lede-emph{white-space:nowrap;word-break:keep-all;font-weight:800;color:#241f17;
+   font-size:1.14em;background:linear-gradient(transparent 52%,rgba(184,144,47,.34) 52%);
+   padding:0 4px;border-radius:3px}
+.lede-key{color:var(--teal)}
 .enter{position:relative;z-index:1;margin-top:32px;font-family:Pretendard,sans-serif;font-size:15.5px;
    font-weight:700;letter-spacing:.02em;color:#fff;border:0;cursor:pointer;border-radius:999px;padding:15px 36px;
    background:linear-gradient(96deg,var(--gold),var(--terra));
@@ -388,7 +392,8 @@ a:focus-visible,button:focus-visible,.tab:focus-visible,.tok:focus-visible,
       <div class="sp-lead">
         <p class="eyebrow">老舍 · 駱駝祥子 · 디지털 인문학 / 돈(錢) 마크업</p>
         <h1>돈을 <span class="hi">읽는 곡선</span>에서<br><span class="hi">세는 곡선</span>으로.</h1>
-        <p class="lede">인력거꾼 샹즈의 일생, <b>三起三落</b>의 오르내림을 인상이 아니라 <b>측정</b>으로 다시 읽는다.<br>
+        <p class="lede">인력거꾼 샹즈의 일생, <b>三起三落</b>의 오르내림을 인상이 아니라<br>
+          <span class="lede-emph"><b class="lede-key">측정(데이터)</b>로 다시 읽는다</span>.<br>
           돈이 오가는 291개의 순간을 문장 하위 속성으로 태깅한 기록.</p>
       </div>
       <div id="morph" class="morph" aria-hidden="true">
