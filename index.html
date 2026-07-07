@@ -65,9 +65,6 @@ body.intro{overflow:hidden}
    box-shadow:0 3px 8px rgba(60,40,10,.18);transition:transform 1.05s cubic-bezier(.22,.9,.3,1)}
 .morph-cap{font-size:12.5px;color:#8a8172;margin:6px 0 0}
 .morph-cap b{color:#5f5647}
-.morph-replay{margin-top:9px;font:600 12px Pretendard,sans-serif;color:var(--teal);background:none;
-   border:1px solid rgba(63,138,120,.35);border-radius:999px;padding:5px 13px;cursor:pointer;transition:.15s}
-.morph-replay:hover{background:rgba(63,138,120,.09)}
 
 /* HERO — cover shelf marquee */
 .shelf{position:relative;z-index:1;margin:54px auto 0;max-width:1280px;
@@ -399,7 +396,6 @@ a:focus-visible,button:focus-visible,.tab:focus-visible,.tok:focus-visible,
         <div id="morphtext" class="morph-text">자신의 인력거가 생긴 이후로 그의 생활은 날이 갈수록 활기를 띠었다.<span class="mtok" data-nat="흐름" data-dir="획득">전세도 좋고</span>개별 손님을 모셔도 좋았다. 매일 &#x27;<span class="mtok" data-nat="흐름" data-dir="지출">사납금</span>&#x27; 때문에 조급할 필요도 없었으니,<span class="mtok" data-nat="흐름" data-dir="획득">얼마를 끌든 모두 자기 몫</span>이었던 것이다.</div>
         <div id="morphstage" class="morph-stage"><svg class="morph-svg"><path class="morph-path" d=""></path></svg></div>
         <p class="morph-cap"><b>읽는 문장</b>의 돈이 <b>세는 점</b>으로 — 이 프로젝트가 하는 일</p>
-        <button id="morphreplay" class="morph-replay" type="button">↻ 다시 보기</button>
       </div>
     </div>
   </div>
@@ -1270,7 +1266,6 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>swit
     },delay+250));
   }
   const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const rp=document.getElementById('morphreplay'); if(rp)rp.addEventListener('click',runMorph);
   if(!reduce&&document.body.classList.contains('intro'))timers.push(setTimeout(runMorph,750));
 })();
 // 표지 인트로 게이트 → '들어가기'로 본문 진입
