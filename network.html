@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>낙타샹즈 · 돈의 사회관계망</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet"><script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>낙타샹즈 · 돈의 사회관계망 (전 24장)</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet"><script>
 /**
 * plotly.js v2.35.2
 * Copyright 2012-2024, Plotly, Inc.
@@ -36,10 +36,16 @@
   .cap{font-size:12px;color:var(--mut);line-height:1.7;margin:14px auto 0;text-align:center;max-width:920px}
   .cap b{color:#6b6356;font-weight:600}
   .cap code{background:#f1eadd;border-radius:5px;padding:1px 5px;font-size:11px;color:#7a7060}
-  /* 컨트롤(드롭다운) */
-  #controls{font-size:13px;color:#544c3f;margin:12px 0 2px}
-  #controls select{font-family:inherit;font-size:13px;padding:4px 9px;border:1px solid var(--line);
-                   border-radius:8px;background:#fff;color:var(--ink);margin:0 2px}
+  /* 컨트롤(드롭다운) — 눈에 띄는 필터 바 */
+  #controls{display:flex;flex-wrap:wrap;align-items:center;gap:7px 15px;font-size:13px;color:#544c3f;
+            margin:14px 0 12px;padding:11px 15px;background:#fbf4e6;
+            border:1px solid #e7dabf;border-radius:12px;box-shadow:0 6px 16px -12px rgba(120,90,30,.4)}
+  #controls::before{content:"F50D  골라 보기";font-weight:800;color:var(--gold);
+                    letter-spacing:.02em;margin-right:2px}
+  #controls select{font-family:inherit;font-size:13px;padding:5px 10px;border:1px solid #d9c9a6;
+                   border-radius:8px;background:#fff;color:var(--ink);margin:0 2px;cursor:pointer;font-weight:600}
+  #controls select:hover{border-color:var(--gold)}
+  #controls .cgroup{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:#4a4234}
   /* 범례 칩 */
   .legend{display:flex;flex-wrap:wrap;justify-content:center;gap:7px 9px;margin:8px 0 2px}
   .lgttl{font-size:12px;color:var(--mut);align-self:center;margin-right:2px}
@@ -58,34 +64,38 @@
   .guide p,.guide li{font-size:13.5px;color:#4a443a;line-height:1.66;margin:3px 0}
   .guide ul{margin:2px 0;padding-left:19px}
   .guide b{color:#2c2a26}
-</style></head><body><div id="wrap"><div class="card"><p class="eyebrow">駱駝祥子 · MONEY EGO-NETWORK</p><h1>돈의 사회관계망 — 샹즈를 중심으로<span class="sub">누구에게서 들어오고 어디로 나가는가 · 1–10장 직접 관여 124회의 흐름</span></h1><div class="rule"></div>
+</style></head><body><div id="wrap"><div class="card"><p class="eyebrow">駱駝祥子 · MONEY EGO-NETWORK</p><h1>돈의 사회관계망 — 샹즈를 중심으로 · 전 24장<span class="sub">누구에게서 들어오고 어디로 나가는가 · 1~24장 샹즈 직접 관여 355회의 흐름</span></h1><div class="rule"></div>
   <details class="guide" open>
     <summary>📊 이 그림 한눈에 이해하기 <span class="chev">▲ 접기 / ▼ 펼치기</span></summary>
     <div class="gbody">
       <div class="q">이 그림은 무엇인가요?</div>
       <p>주인공 <b>샹즈</b>에게 돈이 <b>누구에게서 들어오고(왼쪽) 어디로 나가는지(오른쪽)</b>를 한 장에 모은
-      '돈의 인간관계 지도'예요. 소설 1~10장에서 샹즈가 직접 주고받은 돈 거래 124번을 집계했습니다.</p>
+      '돈의 인간관계 지도'예요. 소설 <b>전 24장</b>에서 샹즈가 직접 주고받은 돈 거래를 집계했습니다.
+      (二强子의 딸 매매·小福子의 賣淫·阮明의 津貼 같은 <b>샹즈와 무관한 남의 경제</b>는 제외 — 그건 산점도에서 인물별로 볼 수 있어요.)</p>
       <div class="q">무엇을 알 수 있나요?</div>
       <ul>
-        <li>샹즈의 수입은 거의 전부 <b>'고용주·손님'에게 받는 노동의 대가(33번)</b> — 그는 철저히 몸으로 버는 사람입니다.</li>
-        <li>그 돈이 가장 많이 흘러가는 곳은 <b>저축(撲滿, 저금통 26번)</b> — '한 푼이라도 모으려는' 샹즈의 강박이 보입니다.</li>
-        <li>들어오는 길도 나가는 길도 8곳뿐 — <b>가난한 노동자의 좁은 경제 반경</b>이 그대로 드러납니다.</li>
+        <li>샹즈의 수입은 대부분 <b>고용주·손님에게 받는 노동의 대가</b> — 그는 끝까지 몸으로 버는 사람입니다.</li>
+        <li>후반부엔 <b>孫偵探의 갈취</b>, <b>虎妞 난산의 의료·무당 지출</b>, 그리고 마지막 <b>阮明을 60塊에 판 밀고(人命매각)</b>가
+        새 물길로 등장 — 노동경제가 무너지고 <b>강탈·타락의 돈</b>이 섞여듭니다.</li>
       </ul>
       <div class="q">어떻게 보나요?</div>
-      <p><b>띠가 굵을수록 자주 일어난 거래</b>이고, <b>색은 거래의 종류</b>(아래 범례)예요.
-      금액은 본문에 매번 안 나오므로 '횟수'로 셌습니다. <b>띠나 이름에 마우스를 올리면</b> 실제 소설 본문 예시가 떠요.</p>
+      <p><b>띠가 굵을수록 자주 일어난 거래</b>, <b>색은 거래 종류</b>(아래 범례)예요. 금액이 매번 안 나오므로 '횟수'로 셌습니다.
+      <b>띠·이름에 마우스를 올리면</b> 실제 본문 예시가 떠요.</p>
     </div>
   </details>
-  <div id="chart" class="chart" style="height:660px"></div>
+  <div id="chart" class="chart" style="height:680px"></div>
   <div class="legend"><span class="lgttl">띠 색 = 거래 유형</span><span class="lg"><i style="background:#4c8c7a"></i>노동</span><span class="lg"><i style="background:#b89150"></i>매각</span><span class="lg"><i style="background:#d08c5a"></i>소비</span><span class="lg"><i style="background:#c05a52"></i>강탈</span><span class="lg"><i style="background:#8678a8"></i>자본</span><span class="lg"><i style="background:#4a7ba6"></i>저축</span></div>
   <div class="cap">노드 = 경제주체(라벨 뒤 숫자 = 관여 <b>횟수</b>) · 띠 굵기 = 횟수 · 색 = 유형.
-  금액이 매번 명시되진 않으므로 <b>거래 횟수(빈도)</b>로 집계했어.
-  띠·노드에 <b>마우스를 올리면</b> 유형·횟수·예시 본문이 떠.
   劉四爺·후니우·낙타노인은 수입측/지출측으로 분리(Sankey는 순환 불가).
-  담론·간접(배경 차부경제 23건)은 제외 · 검수 <code>_egonet_edges.txt</code></div>
+  담론·간접(배경 차부경제)과 샹즈와 무관한 독립 경제는 제외.</div>
 </div></div>
 <script>
-  var data=[{"type": "sankey", "arrangement": "snap", "valueformat": "d", "valuesuffix": "회", "node": {"pad": 26, "thickness": 18, "line": {"color": "rgba(255,255,255,0.85)", "width": 1.2}, "label": ["고용주·손님 · 33", "楊宅(고용주) · 10", "曹宅(고용주) · 5", "劉四爺(자본) · 4", "高媽 · 2", "낙타노인 · 2", "시장(매각) · 1", "후니우 · 1", "샹즈", "저축(撲滿) · 26", "시장(생활) · 20", "군인·강도 · 8", "인력거점(車主) · 6", "劉四爺(자본) · 2", "후니우 · 2", "집세(房) · 1", "낙타노인 · 1"], "color": ["#4c8c7a", "#4c8c7a", "#4c8c7a", "#8678a8", "#8678a8", "#b89150", "#b89150", "#d08c5a", "#d9a400", "#4a7ba6", "#d08c5a", "#c05a52", "#d08c5a", "#8678a8", "#d08c5a", "#d08c5a", "#b89150"], "x": [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.5, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999], "y": [0.05, 0.1785714285714286, 0.30714285714285716, 0.4357142857142857, 0.5642857142857144, 0.692857142857143, 0.8214285714285715, 0.9500000000000001, 0.5, 0.05, 0.1785714285714286, 0.30714285714285716, 0.4357142857142857, 0.5642857142857144, 0.692857142857143, 0.8214285714285715, 0.9500000000000001], "customdata": ["수입 · 노동 · 33건", "수입 · 노동 · 10건", "수입 · 노동 · 5건", "수입 · 자본 · 4건", "수입 · 자본 · 2건", "수입 · 매각 · 2건", "수입 · 매각 · 1건", "수입 · 소비 · 1건", "주인공(허브) · 수입 58건 · 지출 66건", "지출/상실/유보 · 저축 · 26건", "지출/상실/유보 · 소비 · 20건", "지출/상실/유보 · 강탈 · 8건", "지출/상실/유보 · 소비 · 6건", "지출/상실/유보 · 자본 · 2건", "지출/상실/유보 · 소비 · 2건", "지출/상실/유보 · 소비 · 1건", "지출/상실/유보 · 매각 · 1건"], "hovertemplate": "<b>%{label}</b><br>%{customdata}<extra></extra>", "hoverlabel": {"bgcolor": "#2c2a26", "bordercolor": "#2c2a26", "font": {"color": "#f7f4ee", "size": 13, "family": "Pretendard, 'Malgun Gothic', sans-serif"}}}, "link": {"source": [0, 1, 2, 3, 4, 5, 6, 7, 8, 8, 8, 8, 8, 8, 8, 8], "target": [8, 8, 8, 8, 8, 8, 8, 8, 9, 10, 11, 12, 13, 14, 15, 16], "value": [33, 10, 5, 4, 2, 2, 1, 1, 26, 20, 8, 6, 2, 2, 1, 1], "color": ["rgba(76,140,122,0.45)", "rgba(76,140,122,0.45)", "rgba(76,140,122,0.45)", "rgba(134,120,168,0.45)", "rgba(134,120,168,0.45)", "rgba(184,145,80,0.45)", "rgba(184,145,80,0.45)", "rgba(208,140,90,0.45)", "rgba(74,123,166,0.45)", "rgba(208,140,90,0.45)", "rgba(192,90,82,0.45)", "rgba(208,140,90,0.45)", "rgba(134,120,168,0.45)", "rgba(208,140,90,0.45)", "rgba(208,140,90,0.45)", "rgba(184,145,80,0.45)"], "customdata": ["고용주·손님 → 샹즈<br>노동 · 33건<br>예: 1장 掙出那輛車 / 1장 賺出那輛車 / 1장 賣力氣就能吃飯 / 1장 拉車是件更容易掙錢的事 / 1장 第一天沒拉著什麼錢 / 1장 第二天的生意不錯", "楊宅(고용주) → 샹즈<br>노동 · 10건<br>예: 5장 每天的收入沒有定數 / 5장 他拉上了包月 / 5장 不足以對得起那點工錢 / 5장 大太太管著頭兒錢 / 5장 給僕人們多弄三毛五毛的 / 5장 預備著代付客人的車資", "曹宅(고용주) → 샹즈<br>노동 · 5건<br>예: 7장 犧牲了錢 / 8장 沒扣祥子的工錢 / 8장 頭一號買賣 / 8장 節賞固定的是兩塊錢 / 8장 弄個兩毛三毛的", "劉四爺(자본) → 샹즈<br>자본 · 4건<br>예: 4장 設過賭場 / 4장 買賣過人口 / 4장 放過閻王賬 / 4장 車租，他的比別家的大", "高媽 → 샹즈<br>자본 · 2건<br>예: 7장 賣力氣掙錢 / 7장 剩倆錢", "낙타노인 → 샹즈<br>매각 · 2건<br>예: 10장 臨完多要一個子兒都怪難的 / 10장 掙多掙少", "시장(매각) → 샹즈<br>매각 · 1건<br>예: 3장 拿著三十五塊很亮的現洋", "후니우 → 샹즈<br>소비 · 1건<br>예: 6장 一天進個塊兒八毛的", "샹즈 → 저축(撲滿)<br>저축 · 26건<br>예: 1장 省吃儉用 / 1장 一天要是能剩一角的話 / 1장 省出個塊兒八角的 / 1장 三頭五塊的 / 1장 剩起五六十塊 / 1장 積儲買車的錢", "샹즈 → 시장(생활)<br>소비 · 20건<br>예: 1장 賃人家的車 / 1장 賃輛新車 / 1장 賃了輛破車 / 1장 賃的那輛 / 1장 不賭錢 / 1장 混一天的嚼穀", "샹즈 → 군인·강도<br>강탈 · 8건<br>예: 1장 碰壞了車，自然要賠錢 / 1장 再丟失幾塊 / 2장 都被他們搶了去 / 5장 一把抓起那張毛票，摔在太太的 / 7장 那點錢「炸了醬」 / 7장 那點錢就必定要不回來", "샹즈 → 인력거점(車主)<br>소비 · 6건<br>예: 1장 拉上包車 / 1장 拉包車 / 1장 「車份兒」著急 / 5장 每天先不用為車租著急 / 6장 車份兒交上 / 6장 兩天的車租掏出來", "샹즈 → 劉四爺(자본)<br>자본 · 2건<br>예: 4장 他開了個洋車廠子 / 9장 買出一兩個人", "샹즈 → 후니우<br>소비 · 2건<br>예: 6장 這兩天連車帶人都白送了 / 9장 我給你補足了一塊", "샹즈 → 집세(房)<br>소비 · 1건<br>예: 8장 放進十塊錢", "샹즈 → 낙타노인<br>매각 · 1건<br>예: 10장 不必為車份兒著急"], "hovertemplate": "%{customdata}<extra></extra>", "hoverlabel": {"bgcolor": "#2c2a26", "bordercolor": "#2c2a26", "font": {"color": "#f7f4ee", "size": 13, "family": "Pretendard, 'Malgun Gothic', sans-serif"}}}}], layout={"font": {"family": "Pretendard, 'Malgun Gothic', sans-serif", "size": 14, "color": "#3a362f"}, "paper_bgcolor": "rgba(0,0,0,0)", "plot_bgcolor": "rgba(0,0,0,0)", "margin": {"t": 34, "l": 24, "r": 24, "b": 14}, "annotations": [{"text": "◀&nbsp; 들어오는 돈 · 수입 58회", "showarrow": false, "x": 0.0, "y": 1.05, "xref": "paper", "yref": "paper", "xanchor": "left", "font": {"color": "#4c8c7a", "size": 13.5, "family": "Pretendard, 'Malgun Gothic', sans-serif"}}, {"text": "나가는 돈 · 지출·상실·유보 66회 &nbsp;▶", "showarrow": false, "x": 1.0, "y": 1.05, "xref": "paper", "yref": "paper", "xanchor": "right", "font": {"color": "#d08c5a", "size": 13.5, "family": "Pretendard, 'Malgun Gothic', sans-serif"}}]};
+  var data=[{"type": "sankey", "arrangement": "snap", "valueformat": "d", "valuesuffix": "회", "node": {"pad": 24, "thickness": 18, "line": {"color": "rgba(255,255,255,0.85)", "width": 1.2}, "label": ["고용주·손님 · 83", "후니우(私房錢) · 42", "夏宅(고용주) · 22", "劉四爺(자본) · 11", "楊宅(고용주) · 10", "시장(매각) · 8", "曹宅(고용주) · 8", "高媽(자본) · 2", "낙타노인 · 2", "阮明 밀고(人命매각) · 1", "샹즈", "시장(생활) · 69", "저축(撲滿) · 47", "군인·강도·사기 · 28", "인력거점(車主) · 12", "劉四爺(자본) · 6", "집세(房) · 1", "낙타노인 · 1", "孫偵探(갈취) · 1", "高媽(자본) · 1"], "color": ["#4c8c7a", "#8678a8", "#4c8c7a", "#8678a8", "#4c8c7a", "#b89150", "#4c8c7a", "#8678a8", "#b89150", "#c05a52", "#d9a400", "#d08c5a", "#4a7ba6", "#c05a52", "#d08c5a", "#8678a8", "#d08c5a", "#b89150", "#c05a52", "#8678a8"], "x": [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.5, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999], "y": [0.05, 0.15000000000000002, 0.25, 0.35000000000000003, 0.45, 0.55, 0.6500000000000001, 0.75, 0.8500000000000001, 0.95, 0.5, 0.05, 0.1625, 0.275, 0.3875, 0.5, 0.6125, 0.7250000000000001, 0.8375, 0.9500000000000001], "customdata": ["수입 · 노동 · 83건", "수입 · 자본 · 42건", "수입 · 노동 · 22건", "수입 · 자본 · 11건", "수입 · 노동 · 10건", "수입 · 매각 · 8건", "수입 · 노동 · 8건", "수입 · 자본 · 2건", "수입 · 매각 · 2건", "수입 · 강탈 · 1건", "주인공(허브) · 수입 189건 · 지출 166건", "지출/상실/유보 · 소비 · 69건", "지출/상실/유보 · 저축 · 47건", "지출/상실/유보 · 강탈 · 28건", "지출/상실/유보 · 소비 · 12건", "지출/상실/유보 · 자본 · 6건", "지출/상실/유보 · 소비 · 1건", "지출/상실/유보 · 매각 · 1건", "지출/상실/유보 · 강탈 · 1건", "지출/상실/유보 · 자본 · 1건"], "hovertemplate": "<b>%{label}</b><br>%{customdata}<extra></extra>", "hoverlabel": {"bgcolor": "#2c2a26", "bordercolor": "#2c2a26", "font": {"color": "#f7f4ee", "size": 13, "family": "Pretendard, 'Malgun Gothic', sans-serif"}}}, "link": {"source": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10, 10, 10, 10, 10], "target": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], "value": [83, 42, 22, 11, 10, 8, 8, 2, 2, 1, 69, 47, 28, 12, 6, 1, 1, 1, 1], "color": ["rgba(76,140,122,0.45)", "rgba(134,120,168,0.45)", "rgba(76,140,122,0.45)", "rgba(134,120,168,0.45)", "rgba(76,140,122,0.45)", "rgba(184,145,80,0.45)", "rgba(76,140,122,0.45)", "rgba(134,120,168,0.45)", "rgba(184,145,80,0.45)", "rgba(192,90,82,0.45)", "rgba(208,140,90,0.45)", "rgba(74,123,166,0.45)", "rgba(192,90,82,0.45)", "rgba(208,140,90,0.45)", "rgba(134,120,168,0.45)", "rgba(208,140,90,0.45)", "rgba(184,145,80,0.45)", "rgba(192,90,82,0.45)", "rgba(134,120,168,0.45)"], "customdata": ["고용주·손님 → 샹즈<br>노동 · 83건<br>예: 1장 掙出那輛車 / 1장 賺出那輛車 / 1장 賣力氣就能吃飯 / 1장 拉車是件更容易掙錢的事 / 1장 第一天沒拉著什麼錢 / 1장 第二天的生意不錯", "후니우(私房錢) → 샹즈<br>자본 · 42건<br>예: 6장 一天進個塊兒八毛的 / 6장 這兩天連車帶人都白送了 / 9장 我給你補足了一塊 / 13장 給你錢 / 13장 給祥子數錢 / 13장 掖給他兩塊錢", "夏宅(고용주) → 샹즈<br>노동 · 22건<br>예: 20장 拉買賣 / 20장 拉上了包月 / 20장 一個小錢也不肯輕易撒手 / 20장 買東西 / 20장 把所有的精力與金錢全敬獻給姨 / 20장 他的錢必須藉著姨太太的手才會", "劉四爺(자본) → 샹즈<br>자본 · 11건<br>예: 4장 設過賭場 / 4장 買賣過人口 / 4장 放過閻王賬 / 4장 車租，他的比別家的大 / 13장 開寶 / 13장 從前開過寶局", "楊宅(고용주) → 샹즈<br>노동 · 10건<br>예: 5장 每天的收入沒有定數 / 5장 他拉上了包月 / 5장 不足以對得起那點工錢 / 5장 大太太管著頭兒錢 / 5장 給僕人們多弄三毛五毛的 / 5장 預備著代付客人的車資", "시장(매각) → 샹즈<br>매각 · 8건<br>예: 3장 拿著三十五塊很亮的現洋 / 20장 車賣了 / 20장 賣出去 / 20장 其餘的連衣服帶器具全賣 / 20장 一口價賣了十幾塊錢 / 23장 把棉衣捲巴捲巴全賣了", "曹宅(고용주) → 샹즈<br>노동 · 8건<br>예: 7장 犧牲了錢 / 8장 沒扣祥子的工錢 / 8장 頭一號買賣 / 8장 節賞固定的是兩塊錢 / 8장 弄個兩毛三毛的 / 11장 我這給了錢", "高媽(자본) → 샹즈<br>자본 · 2건<br>예: 7장 賣力氣掙錢 / 7장 剩倆錢", "낙타노인 → 샹즈<br>매각 · 2건<br>예: 10장 臨完多要一個子兒都怪難的 / 10장 掙多掙少", "阮明 밀고(人命매각) → 샹즈<br>강탈 · 1건<br>예: 24장 把阮明賣了六十塊錢", "샹즈 → 시장(생활)<br>소비 · 69건<br>예: 1장 賃人家的車 / 1장 賃輛新車 / 1장 賃了輛破車 / 1장 賃的那輛 / 1장 不賭錢 / 1장 混一天的嚼穀", "샹즈 → 저축(撲滿)<br>저축 · 47건<br>예: 1장 省吃儉用 / 1장 一天要是能剩一角的話 / 1장 省出個塊兒八角的 / 1장 三頭五塊的 / 1장 剩起五六十塊 / 1장 積儲買車的錢", "샹즈 → 군인·강도·사기<br>강탈 · 28건<br>예: 1장 碰壞了車，自然要賠錢 / 1장 再丟失幾塊 / 2장 都被他們搶了去 / 5장 一把抓起那張毛票，摔在太太的 / 7장 那點錢「炸了醬」 / 7장 那點錢就必定要不回來", "샹즈 → 인력거점(車主)<br>소비 · 12건<br>예: 1장 拉上包車 / 1장 拉包車 / 1장 「車份兒」著急 / 5장 每天先不用為車租著急 / 6장 車份兒交上 / 6장 兩天的車租掏出來", "샹즈 → 劉四爺(자본)<br>자본 · 6건<br>예: 4장 他開了個洋車廠子 / 9장 買出一兩個人 / 14장 放了一天的車份兒 / 14장 賠這份窩囊錢 / 14장 花錢 / 17장 把錢攘出去", "샹즈 → 집세(房)<br>소비 · 1건<br>예: 8장 放進十塊錢", "샹즈 → 낙타노인<br>매각 · 1건<br>예: 10장 不必為車份兒著急", "샹즈 → 孫偵探(갈취)<br>강탈 · 1건<br>예: 11장 就仗著點外找兒", "샹즈 → 高媽(자본)<br>자본 · 1건<br>예: 23장 出來買東西"], "hovertemplate": "%{customdata}<extra></extra>", "hoverlabel": {"bgcolor": "#2c2a26", "bordercolor": "#2c2a26", "font": {"color": "#f7f4ee", "size": 13, "family": "Pretendard, 'Malgun Gothic', sans-serif"}}}}], layout={"font": {"family": "Pretendard, 'Malgun Gothic', sans-serif", "size": 14, "color": "#3a362f"}, "paper_bgcolor": "rgba(0,0,0,0)", "plot_bgcolor": "rgba(0,0,0,0)", "margin": {"t": 34, "l": 24, "r": 24, "b": 14}, "annotations": [{"text": "◀&nbsp; 들어오는 돈 · 수입 189회", "showarrow": false, "x": 0.0, "y": 1.05, "xref": "paper", "yref": "paper", "xanchor": "left", "font": {"color": "#4c8c7a", "size": 13.5, "family": "Pretendard, 'Malgun Gothic', sans-serif"}}, {"text": "나가는 돈 · 지출·상실·유보 166회 &nbsp;▶", "showarrow": false, "x": 1.0, "y": 1.05, "xref": "paper", "yref": "paper", "xanchor": "right", "font": {"color": "#d08c5a", "size": 13.5, "family": "Pretendard, 'Malgun Gothic', sans-serif"}}]};
   Plotly.newPlot('chart',data,layout,{responsive:true,displaylogo:false,
     modeBarButtonsToRemove:['lasso2d','select2d','zoom2d','pan2d','autoScale2d']});
-</script></body></html>
+</script>
+<script>/* 부모 페이지에 실제 높이 보고 → iframe 안쪽 스크롤바 제거(단일 스크롤바) */
+(function(){function rh(){var h=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight,document.body.offsetHeight||0);try{parent.postMessage({__chartH:h},'*');}catch(e){}}
+window.addEventListener('load',function(){rh();setTimeout(rh,300);setTimeout(rh,1000);setTimeout(rh,2200);});
+window.addEventListener('resize',rh);if(window.ResizeObserver){try{new ResizeObserver(rh).observe(document.body);}catch(e){}}})();</script>
+</body></html>
