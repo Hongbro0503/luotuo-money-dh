@@ -60,7 +60,10 @@ body.intro{overflow:hidden}
 .morph-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .morph-path{fill:none;stroke:var(--teal);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
 .flydot{position:absolute;width:13px;height:13px;border-radius:50%;margin:-6.5px 0 0 -6.5px;z-index:3;
-   box-shadow:0 3px 8px rgba(60,40,10,.18);transition:transform 1.05s cubic-bezier(.22,.9,.3,1)}
+   box-shadow:0 3px 8px rgba(60,40,10,.18);transition:transform .5s cubic-bezier(.34,1.5,.45,1)}
+.flydot.pop::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid currentColor;
+   opacity:.55;animation:dotpop .5s ease-out forwards}
+@keyframes dotpop{from{transform:scale(.4);opacity:.55}to{transform:scale(2.3);opacity:0}}
 .morph-cap{font-size:12.5px;color:#8a8172;margin:6px 0 0}
 .morph-cap b{color:#5f5647}
 
@@ -875,17 +878,20 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>swit
                 const dir=t.dataset.dir, up=(dir==='획득'||dir==='저축'), down=(dir==='지출'||dir==='상실');
                 const tx=pad+(sr.width-2*pad)*(T>1?(base+ti)/(T-1):0.5);
                 const ty=sr.height/2+(up?-1:down?1:0)*sr.height*0.30;
+                const col=NAT[t.dataset.nat]||'#b8902f';
                 const dot=document.createElement('span'); dot.className='flydot';
-                dot.style.background=NAT[t.dataset.nat]||'#b8902f'; dot.style.left=x0+'px'; dot.style.top=y0+'px';
+                dot.style.background=col; dot.style.color=col; dot.style.left=x0+'px'; dot.style.top=y0+'px';
+                dot.style.transform='scale(.2)';
                 stage.appendChild(dot);
-                requestAnimationFrame(()=>{dot.style.transform='translate('+(tx-x0)+'px,'+(ty-y0)+'px)';});
+                requestAnimationFrame(()=>{dot.style.transform='translate('+(tx-x0)+'px,'+(ty-y0)+'px) scale(1)';});
+                timers.push(setTimeout(()=>dot.classList.add('pop'),500));   // 착지 팝 링
                 t.classList.add('spent'); allpts.push({tx,ty});
-              },240));
-            },ti*340));
+              },120));
+            },ti*150));
           });
-        },200));
+        },120));
       },delay));
-      delay += 200 + counts[si]*340 + 560;
+      delay += 120 + counts[si]*150 + 260;
     });
     timers.push(setTimeout(()=>{
       if(!path||allpts.length<2)return;
@@ -896,11 +902,13 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>swit
       const len=path.getTotalLength();
       path.style.transition='none';path.style.strokeDasharray=len;path.style.strokeDashoffset=len;
       path.getBoundingClientRect();
-      path.style.transition='stroke-dashoffset 1.2s ease';path.style.strokeDashoffset='0';
-    },delay+250));
+      path.style.transition='stroke-dashoffset .7s ease';path.style.strokeDashoffset='0';
+      // 부드러운 반복 — 표지에 머무는 동안 계속 살아있게
+      if(document.body.classList.contains('intro'))timers.push(setTimeout(runMorph,2000));
+    },delay+120));
   }
   const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if(!reduce&&document.body.classList.contains('intro'))timers.push(setTimeout(runMorph,750));
+  if(!reduce&&document.body.classList.contains('intro'))timers.push(setTimeout(runMorph,450));
 })();
 // 표지 인트로 게이트 → '들어가기'로 본문 진입
 (function(){
